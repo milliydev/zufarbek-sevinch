@@ -86,21 +86,6 @@ button{font:inherit;cursor:pointer}
 .vimg:hover img,.rv.vis .vimg img{transform:scale(1.04)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* rsvp */
-.ask{font-size:36px;font-weight:500;color:var(--gold-l);margin:0}
-.q{font-family:var(--sans);font-size:11px;letter-spacing:.25em;color:var(--gold);margin:28px 0 12px}
-.inp{width:100%;padding:15px;border:1px solid rgba(201,162,78,.4);border-radius:4px;background:rgba(255,255,255,.03);color:#efe3c8;font-family:var(--serif);font-size:19px;text-align:center}
-.inp::placeholder{color:#8d7f63;font-style:italic}
-.stepper{display:flex;align-items:center;justify-content:center;gap:24px}
-.stepper button{width:48px;height:48px;border-radius:50%;border:1px solid rgba(201,162,78,.5);background:transparent;color:var(--gold-l);font-size:22px;line-height:1}
-.stepper output{font-size:40px;min-width:2ch;color:var(--gold-l)}
-.stack{display:grid;gap:10px;margin:26px 0 12px}
-.err{font-family:var(--sans);font-size:12px;color:#e08a7a;min-height:1.2em;margin:4px 0 10px}
-.thanks{display:none}
-.thanks.show{display:block}
-.thanks .ico{font-size:46px}
-.thanks .big{font-family:var(--script);font-size:64px;color:var(--gold-l);margin:0;line-height:1.1}
-
 /* gift */
 .bank{position:relative;overflow:hidden;border-radius:14px;padding:26px 26px 24px;margin:30px 0 16px;text-align:left;background:linear-gradient(135deg,#2a2114 0%,#3d3019 55%,#4a3a1c 100%);color:#efe3c8;box-shadow:0 12px 30px rgba(40,30,15,.3)}
 .bank::before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-80px;top:-70px;background:radial-gradient(circle,rgba(201,162,78,.28),rgba(201,162,78,.08) 60%,transparent 70%)}
@@ -172,7 +157,6 @@ button{font:inherit;cursor:pointer}
 @keyframes glowm{0%,100%{opacity:.4}50%{opacity:.8}}
 .vimg svg .win{animation:blink 3s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:.9}50%{opacity:.4}}
-.thanks.show .ico{animation:float 2.4s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .music{display:none;align-items:center;justify-content:center;box-shadow:0 0 0 0 rgba(201,162,78,.5)}
 .music.on{display:flex}
@@ -268,38 +252,6 @@ button{font:inherit;cursor:pointer}
   </div>
 </section>
 
-<section class="sec d">
-  <div class="in">
-    <p class="label">TASDIQ</p>
-    <div class="div"><i></i></div>
-    <div id="form">
-      <p class="it">Iltimos, 11-noyabrgacha javob bering</p>
-      <p class="q">ISMINGIZ</p>
-      <input class="inp" id="gname" type="text" autocomplete="name" placeholder="Ism, familiya" aria-label="Ismingiz">
-      <div id="countWrap">
-        <p class="q">NECHTA KISHI KELASIZ?</p>
-        <div class="stepper">
-          <button type="button" id="minus" aria-label="Kamaytirish">−</button>
-          <output id="people" aria-live="polite">1</output>
-          <button type="button" id="plus" aria-label="Ko'paytirish">+</button>
-        </div>
-      </div>
-      <div class="stack" role="group" aria-label="Javobingiz">
-        <button type="button" class="obtn ch" data-v="yes" aria-pressed="false">✓ &nbsp;KELAMAN</button>
-        <button type="button" class="obtn ch" data-v="no" aria-pressed="false">✕ &nbsp;KELA OLMAYMAN</button>
-      </div>
-      <p class="err" id="err" role="alert"></p>
-      <button type="button" class="gbtn" id="send">TASDIQLASH →</button>
-    </div>
-    <div class="thanks" id="thanks" aria-live="polite">
-      <div class="ico">💌</div>
-      <p class="big">Rahmat!</p>
-      <p class="it">Javobingiz qabul qilindi</p>
-      <p class="it" style="font-size:17px;margin-top:10px;color:#bba982">Telegram ochilgach, kelin-kuyovni tanlab xabarni yuboring. Xabar matni ochilmasa, uni joylashtiring: u allaqachon nusxalangan.</p>
-    </div>
-  </div>
-</section>
-
 <section class="sec d foot">
   <canvas class="fspark" aria-hidden="true"></canvas>
   <div class="in">
@@ -347,22 +299,6 @@ button{font:inherit;cursor:pointer}
   var notes={UZS:"Karta orqali so'mda o'tkazishingiz mumkin.",USD:"Dollarda yubormoqchi bo'lsangiz, karta so'mga avtomatik konvertatsiya qiladi.",EUR:"Yevroda yubormoqchi bo'lsangiz, karta so'mga avtomatik konvertatsiya qiladi."};
   var cb=document.querySelectorAll(".cur button");
   cb.forEach(function(b){b.addEventListener("click",function(){cb.forEach(function(x){x.setAttribute("aria-pressed",String(x===b))});document.getElementById("curnote").textContent=notes[b.dataset.c];});});
-
-  var answer=null,people=1,out=document.getElementById("people");
-  var btns=document.querySelectorAll(".ch");
-  btns.forEach(function(b){b.addEventListener("click",function(){answer=b.dataset.v;btns.forEach(function(x){x.setAttribute("aria-pressed",String(x===b))});document.getElementById("countWrap").style.display=answer==="no"?"none":"";document.getElementById("err").textContent="";});});
-  document.getElementById("minus").addEventListener("click",function(){if(people>1){people--;out.textContent=people;}});
-  document.getElementById("plus").addEventListener("click",function(){if(people<20){people++;out.textContent=people;}});
-  document.getElementById("send").addEventListener("click",function(){
-    var name=document.getElementById("gname").value.trim(),err=document.getElementById("err");
-    if(!name){err.textContent="Iltimos, ismingizni yozing";return;}
-    if(!answer){err.textContent="Kelaman yoki Kela olmayman ni tanlang";return;}
-    var msg="💌 To'yga javob (Zufarbek & Sevinch, 14-noyabr)\n\nIsm: "+name+"\nJavob: "+(answer==="yes"?"✅ Kelaman":"❌ Kela olmayman")+(answer==="yes"?"\nNecha kishi: "+people:"")+"\n\nTabriklayman!";
-    copy(msg,"Javob nusxalandi, Telegram ochilmoqda");
-    window.open("https://t.me/share/url?url="+encodeURIComponent(location.href.split("#")[0])+"&text="+encodeURIComponent(msg),"_blank","noopener");
-    document.getElementById("form").style.display="none";
-    document.getElementById("thanks").classList.add("show");
-  });
 
   document.getElementById("share").addEventListener("click",function(){
     var link=location.href.split("#")[0];
